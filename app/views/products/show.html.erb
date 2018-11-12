@@ -29,9 +29,11 @@
     <br>
    <% if @current_user_id && !@user_reviewed%>
       <div class="col-sm-4">
-        <%= form_for :@review, url: '/products/:product_id/reviews' do |f| %>
+        <%= form_for @review, url: product_reviews_path(@product) do |f| %>
           <%= f.text_area :description %>
           <%= f.select :rating, [['Amazing', 5], ['Good', 4], ['Average', 3], ['Poor', 2], ['Terrible', 1]] %>
+          <%= f.hidden_field :product_id, value: @product.id %>
+          <%= f.hidden_field :user_id, value: @current_user_id %>
           <%= f.submit "Submit Review" %>
         <% end %>
       </div>

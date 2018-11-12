@@ -9,6 +9,7 @@ class ProductsController < ApplicationController
     @reviews = Review.where(product_id: params[:id]).order("created_at DESC")
     @user_reviewed = Review.find_by user_id: session[:user_id], product_id: params[:id]
     @current_user_id = session[:user_id]
+    @review = Review.new product: @product
   end
 
   def destroy

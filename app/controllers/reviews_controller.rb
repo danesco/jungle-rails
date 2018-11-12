@@ -8,7 +8,9 @@ class ReviewsController < ApplicationController
 
   def create
     @review = Review.new(review_params)
-    # @review.save!
+    p @review
+    @review.user = current_user
+    @review.save!
 
     if @review.save
       redirect_to @review.product
@@ -18,7 +20,6 @@ class ReviewsController < ApplicationController
   private
   def require_login
     unless session[:user_id]
-      flash[:error] = "You must be logged in to access this section"
       redirect_to new_login_url
     end
   end
@@ -26,7 +27,6 @@ class ReviewsController < ApplicationController
     params.require(:review).permit(
       :description,
       :product_id,
-      :user_id,
       :rating
     )
   end
