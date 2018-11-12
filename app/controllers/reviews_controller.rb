@@ -2,12 +2,13 @@ class ReviewsController < ApplicationController
 
   before_action :require_login
 
+  def new
+    @review = Review.new
+  end
+
   def create
-    @review = Review.new("description": params[:review][:description],
-                         "product_id": params[:product_id],
-                         "rating": params[:review][:rating],
-                         "user_id": session[:user_id])
-    @review.save!
+    @review = Review.new(review_params)
+    # @review.save!
 
     if @review.save
       redirect_to @review.product
@@ -21,4 +22,13 @@ class ReviewsController < ApplicationController
       redirect_to new_login_url
     end
   end
+  def review_params
+    params.require(:review).permit(
+      :description,
+      :product_id,
+      :user_id,
+      :rating
+    )
+  end
 end
+
